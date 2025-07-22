@@ -1,0 +1,35 @@
+[project]
+name = "projeto-dados"
+version = "0.1.0"
+description = ""
+authors = [
+    {name = "LeonArmster",email = "leo.armster1994@gmail.com"}
+]
+readme = "README.md"
+requires-python = "3.12.8"
+dependencies = [
+]
+
+
+[build-system]
+requires = ["poetry-core>=2.0.0,<3.0.0"]
+build-backend = "poetry.core.masonry.api"
+
+[tool.poetry.group.dev.dependencies]
+pandas = "^2.3.1"
+sqlmodel = "^0.0.24"
+jupyter = "^1.1.1"
+psycopg2 = "^2.9.10"
+taskipy = "^1.14.1"
+blue = "^0.9.1"
+isort = "^6.0.1"
+pathlib = "^1.0.1"
+dotenv = "^0.9.9"
+
+
+[tool.poetry.group.doc.dependencies]
+mkdocs = "^1.6.1"
+mkdocs-material = "^9.6.15"
+mkdocstrings-python = "^1.16.12"
+mkdocs-mermaid2-plugin = "^1.2.1"
+
