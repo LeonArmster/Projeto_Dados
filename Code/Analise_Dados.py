@@ -4,6 +4,8 @@ from sqlmodel import create_engine
 import os
 from dotenv import load_dotenv
 from config import conexao, sql_dir
+import matplotlib.pyplot as plt
+import seaborn as sns
 
 # Conectando ao banco
 load_dotenv(dotenv_path=conexao)
@@ -43,6 +45,15 @@ def read_query(diretorio:str, nome_query:str, conexao:str) -> pd.DataFrame:
 
     return df
 
+## Função para criar gráficos de colunas
+def bar_graph(coluna):
+    plt.figure(figsize=(15,5))
+    valores = coluna.value_counts().head(10)
+    ax = sns.barplot(x=valores.values, y=valores.index)
+    plt.show()
+
+
+
 df_cliente = read_query(sql_dir, 'tb_clientes.sql', con)
 df_categoria = read_query(sql_dir, 'tb_categoria.sql', con)
 df_geolocalizacao = read_query(sql_dir, 'tb_geolocalizacao.sql', con)
@@ -73,7 +84,14 @@ df_mais_vendidos = df_vendas.groupby('product_category_name',sort=False)[['order
 df_mais_vendidos['% Vendas'] = (df_mais_vendidos['order_id'] / df_mais_vendidos['order_id'].sum() * 100).round(1).astype(str) + '%'
 df_mais_vendidos
 
+bar_graph(df_vendas['product_category_name'])
+
 ### Se aplicarmos a regra do 80 / 20 podemos ver que das 73 categorias de produtos que a base possuem, 15 categorias são responsáveis por 80% das vendas sendo elas:
-### cama_mesa_banho	beleza_saude	esporte_lazer	moveis_decoracao	informatica_acessorios	utilidades_domesticas	relogios_presentes	telefonia	ferramentas_jardim	automotivo	brinquedos	cool_stuff	perfurmaria	bebes	eletronicos
+### 1º cama_mesa_banho,	2º beleza_saude, 3º esporte_lazer,	4º moveis_decoracao, 5º informatica_acessorios, 6º utilidades_domesticas, 7º relogios_presentes, 8º telefonia, 9ºferramentas_jardim, 10º automotivo	brinquedos	cool_stuff	perfurmaria	bebes	eletronicos
 
 # Terceira pergunta: Para qual local vende-se mais?
+bar_graph(df_cliente['customer_state'])
+
+bar_graph(df_cliente['customer_city'])
+
+## Após analisar os gráficos podemos ver que os 3 estados que mais se vende são: SP, RJ, MG e que as cidades que mais se vendem são: São Paulo, Rio de Janeiro e Belo Horizonte
